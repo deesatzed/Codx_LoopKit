@@ -22,3 +22,21 @@
   - `python3 scripts/validate_skills.py` -> passed.
   - `PYTHONPYCACHEPREFIX=/private/tmp/codx_loopkit_pycache python3 -m py_compile scripts/validate_skills.py` -> passed.
   - `git diff --check` -> passed.
+
+## 2026-06-22 - Seamless-use goal reset
+
+- Replaced `GOAL.md` with the next completion contract:
+  - one-command idempotent install,
+  - temp-target install smoke support,
+  - installed-skill validation,
+  - quickstart docs,
+  - copy-paste consumer `AGENTS.md` rules,
+  - explicit and automatic usage examples,
+  - verification and push requirements.
+- The goal keeps V0 Codex-native and explicitly excludes a daemon, scheduler,
+  MCP server, plugin package, hook package, UI, model routing, and
+  VibeDecoder-specific logic.
+- Verification:
+  - `python3 scripts/validate_skills.py` -> passed.
+  - `PYTHONPYCACHEPREFIX=/private/tmp/codx_loopkit_pycache python3 -m py_compile scripts/validate_skills.py` -> passed.
+  - `git diff --check` -> passed.
