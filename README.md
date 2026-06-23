@@ -4,6 +4,26 @@ Codx_LoopKit is a Codex-native process pack for turning vague repo work into
 governed goal loops with intake Q&A, verification, failure escalation, Council
 review, and completion gates.
 
+## 60-Second Quickstart
+
+```sh
+git clone https://github.com/deesatzed/Codx_LoopKit.git
+cd Codx_LoopKit
+scripts/install.sh
+python3 scripts/validate_skills.py --skills-dir ~/.agents/skills
+```
+
+Restart Codex if the skills do not appear immediately, then use explicit mode:
+
+```text
+$repo-goal-compiler Make this repo demo-ready.
+```
+
+For automatic mode, copy `examples/consumer-AGENTS.md` into a target repo's
+`AGENTS.md`, then ask Codex for normal repo work.
+
+## What It Is
+
 It is not a separate agent runtime. It is a set of reusable Codex skills and
 project instructions that build on Codex's existing foundations: skills,
 `AGENTS.md`, `/goal`, subagents, hooks, automations, MCP, and `codex exec`.
@@ -15,18 +35,21 @@ project instructions that build on Codex's existing foundations: skills,
 - `repo-completion-gate`: blocks premature "done" claims until proof exists.
 - `council-review`: runs a compact multi-angle review only when useful.
 
-The first version is intentionally small. There is no custom scheduler, daemon,
-agent framework, or model router.
+The first version is intentionally small. There is no daemon, scheduler, MCP
+server, plugin package, custom runtime, agent framework, or model router.
 
 ## Install
 
 ```sh
-git clone https://github.com/deesatzed/Codx_LoopKit.git
-mkdir -p ~/.agents/skills
-cp -R Codx_LoopKit/skills/* ~/.agents/skills/
+scripts/install.sh
 ```
 
-Restart Codex after installing if the skills do not appear immediately.
+Safe smoke install to a temp target:
+
+```sh
+scripts/install.sh --target /private/tmp/codx-loopkit-install-smoke
+python3 scripts/validate_skills.py --skills-dir /private/tmp/codx-loopkit-install-smoke
+```
 
 ## Use
 
@@ -40,9 +63,9 @@ $repo-completion-gate Check whether this is actually done.
 
 Automatic mode:
 
-Copy the relevant rules from this repo's `AGENTS.md` into a target repo's
-`AGENTS.md`, then ask Codex for normal repo work. Codex should invoke the skills
-when the task shape matches their trigger descriptions.
+Copy `examples/consumer-AGENTS.md` into a target repo's `AGENTS.md`, then ask
+Codex for normal repo work. Codex should invoke the skills when the task shape
+matches their trigger descriptions.
 
 ## Design Principle
 
@@ -63,5 +86,6 @@ messy request
 
 ```sh
 python3 scripts/validate_skills.py
+python3 scripts/validate_skills.py --skills-dir ~/.agents/skills
 PYTHONPYCACHEPREFIX=/private/tmp/codx_loopkit_pycache python3 -m py_compile scripts/validate_skills.py
 ```

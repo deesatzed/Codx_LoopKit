@@ -24,3 +24,17 @@ scope drift, and completion ambiguity.
 
 Consequence: `council-review` gives five compact perspectives and one final
 ruling, while normal repo work stays under the goal loop.
+
+## 2026-06-23 - Make install idempotent without global config changes
+
+Decision: V0 uses `scripts/install.sh` to copy the four skill folders into
+`~/.agents/skills` by default, with `--target <dir>` for smoke tests and custom
+installs.
+
+Reason: the product should be usable as Codex skills without requiring users to
+edit global Codex config, run a daemon, install a plugin, or adopt a custom
+runtime.
+
+Consequence: the installer replaces only Codx_LoopKit skill folders in the
+target directory and validates the installed target. It also cleans stale
+`.codx-loopkit.tmp` staging folders before and after install attempts.

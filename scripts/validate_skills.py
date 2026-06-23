@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import re
 import sys
 from pathlib import Path
@@ -7,6 +8,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ROOT / "skills"
+EXPECTED_SKILLS = (
+    "council-review",
+    "repo-completion-gate",
+    "repo-goal-compiler",
+    "repo-loop-runner",
+)
 
 
 def parse_frontmatter(text: str) -> dict[str, str]:
@@ -22,15 +29,30 @@ def parse_frontmatter(text: str) -> dict[str, str]:
     return fields
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Validate Codx_LoopKit skill folders.")
+    parser.add_argument(
+        "--skills-dir",
+        default=str(SKILLS),
+        help="Directory containing installed or repo-local skill folders.",
+    )
+    return parser.parse_args()
+
+
 def main() -> int:
+    args = parse_args()
+    skills_dir = Path(args.skills_dir).expanduser()
     errors: list[str] = []
-    if not SKILLS.is_dir():
-        errors.append("skills/ directory is missing")
+    if not skills_dir.is_dir():
+        errors.append(f"skills directory is missing: {skills_dir}")
     else:
-        skill_dirs = sorted(path for path in SKILLS.iterdir() if path.is_dir())
-        if not skill_dirs:
-            errors.append("skills/ contains no skill directories")
-        for skill_dir in skill_dirs:
+        for expected in EXPECTED_SKILLS:
+            if not (skills_dir / expected).is_dir():
+                errors.append(f"{expected}: expected skill folder is missing")
+        for skill_name in EXPECTED_SKILLS:
+            skill_dir = skills_dir / skill_name
+            if not skill_dir.is_dir():
+                continue
             skill_file = skill_dir / "SKILL.md"
             if not skill_file.is_file():
                 errors.append(f"{skill_dir.name}: missing SKILL.md")
@@ -50,7 +72,7 @@ def main() -> int:
         for error in errors:
             print(f"ERROR: {error}")
         return 1
-    print("Validated Codx_LoopKit skills.")
+    print(f"Validated Codx_LoopKit skills in {skills_dir}.")
     return 0
 
 

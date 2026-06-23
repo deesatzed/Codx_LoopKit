@@ -30,5 +30,9 @@ Before claiming this package is ready:
 ```sh
 python3 scripts/validate_skills.py
 PYTHONPYCACHEPREFIX=/private/tmp/codx_loopkit_pycache python3 -m py_compile scripts/validate_skills.py
+sh -n scripts/install.sh
+scripts/install.sh --target /private/tmp/codx-loopkit-install-smoke
+python3 scripts/validate_skills.py --skills-dir /private/tmp/codx-loopkit-install-smoke
+git diff --check
 git status --short
 ```

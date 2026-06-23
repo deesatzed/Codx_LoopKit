@@ -87,7 +87,7 @@ Do not add in this goal:
 - hook package,
 - browser/UI app,
 - model routing,
-- VibeDecoder-specific logic,
+- project-specific private logic,
 - dependency-heavy installer.
 
 CONSTRAINTS:
@@ -96,7 +96,7 @@ CONSTRAINTS:
 - Keep install transparent: shell/Python scripts must be readable and small.
 - Do not require modifying a user's global Codex config for V0.
 - Do not assume users have this chat history.
-- Do not rely on VibeDecoder, local model paths, OpenRouter keys, or any
+- Do not rely on sibling repos, machine-local paths, provider API keys, or any
   project-specific private state.
 - Preserve both usage modes:
   - explicit skill invocation,
